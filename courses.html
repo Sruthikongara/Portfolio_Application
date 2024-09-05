@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Showcase</title>
+  <style>
+    /* Your CSS styles here */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: honeydew;
+    }
+
+    .project-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .filter-buttons {
+      margin-bottom: 20px;
+    }
+
+    .filter-button {
+      margin-right: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .filter-button:hover {
+      background-color: #45a049; /* Darker color on hover */
+    }
+
+    .project-gallery {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .project {
+      width: calc(50% - 20px);
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    .project img {
+      width: 100%;
+      height: auto;
+    }
+
+    .project-details {
+      background-color: #f4f4f4;
+      padding: 10px;
+    }
+
+    .project-details h3 {
+      margin-top: 0;
+    }
+
+    .upload {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .add-project {
+      padding: 8px 16px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="project-container">
+    <div class="filter-buttons">
+  <button class="filter-button" onclick="filterProjects('all')">All</button>
+  <button class="filter-button" onclick="filterProjects('web')">Web</button>
+  <button class="filter-button" onclick="filterProjects('mobile')">Mobile</button>
+</div>
+
+
+    <div class="project-gallery" id="projectsContainer">
+      <!-- Existing projects here -->
+      <div class="project" data-category="web">
+        <a href="pdfs/FoodRecognition-IEEE-I2MTC2016-final (1).pdf" target="_blank">
+          <img src="photos/project1.png" alt="Project 1">
+        </a>
+        <div class="project-details">
+          <h3>Project 1</h3>
+          <p>Web Development</p>
+          <p>Technologies: HTML, CSS, JavaScript</p>
+        </div>
+      </div>
+      
+      <div class="project" data-category="mobile">
+        <a href="pdfs/FoodRecognition-IEEE-I2MTC2016-final.pdf" target="_blank">
+          <img src="photos/project2.jpg" alt="Project 2">
+        </a>
+        <div class="project-details">
+          <h3>Project 2</h3>
+          <p>Mobile App Development</p>
+          <p>Technologies: React Native</p>
+        </div>
+      </div>
+      
+      <div class="project" data-category="web">
+        <a href="pdfs/AI-A.pdf" target="_blank">
+          <img src="photos/project3.jpg" alt="Project 3">
+        </a>
+        <div class="project-details">
+          <h3>Project 3</h3>
+          <p>Web Development</p>
+          <p>Technologies: HTML, CSS, JavaScript</p>
+        </div>
+      </div>
+      
+      <div class="project" data-category="mobile">
+        <a href="pdfs/IDP review-2.pdf" target="_blank">
+          <img src="photos/project4.png" alt="Project 4">
+        </a>
+        <div class="project-details">
+          <h3>Project 4</h3>
+          <p>Mobile App Development</p>
+          <p>Technologies: Flutter</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload">
+      <input type="file" id="fileInput" accept=".pdf">
+      <button class="add-project" onclick="uploadProject()">+</button>
+    </div>
+
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Add Project Details</h2>
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" required>
+        <label for="projectType">Project Type:</label>
+        <select id="projectType" required>
+          <option value="web">Web</option>
+          <option value="mobile">Mobile</option>
+        </select>
+        <label for="technologies">Technologies:</label>
+        <input type="text" id="technologies" required>
+        <button onclick="saveProjectDetails()">Save</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Initial project filter
+        filterProjects('all');
+      });
+
+      function filterProjects(category) {
+        var projects = document.querySelectorAll('.project');
+        projects.forEach(function (project) {
+          var projectCategory = project.getAttribute('data-category');
+          if (category === 'all' || category === projectCategory) {
+            project.style.display = 'block';
+          } else {
+            project.style.display = 'none';
+          }
+        });
+      }
+
+      function uploadProject() {
+        var fileInput = document.getElementById('fileInput');
+        fileInput.click(); // Trigger the file input click event
+        openModal();
+      }
+
+      function openModal() {
+        document.getElementById('projectModal').style.display = 'block';
+      }
+
+      function closeModal() {
+        document.getElementById('projectModal').style.display = 'none';
+      }
+
+      function saveProjectDetails() {
+        const projectName = document.getElementById('projectName').value;
+        const projectType = document.getElementById('projectType').value;
+        const technologies = document.getElementById('technologies').value;
+
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput.files && fileInput.files[0]) {
+          const projectsContainer = document.getElementById('projectsContainer');
+          const newProjectDiv = document.createElement('div');
+          newProjectDiv.className = 'project';
+          const newProjectLink = document.createElement('a');
+          newProjectLink.href = URL.createObjectURL(fileInput.files[0]);
+          newProjectLink.target = '_blank';
+          const newProjectImg = document.createElement('img');
+          newProjectImg.src = URL.createObjectURL(fileInput.files[0]);
+          newProjectLink.appendChild(newProjectImg);
+
+          // Add project details
+          const newProjectDetails = document.createElement('div');
+          newProjectDetails.className = 'project-details';
+          const newProjectName = document.createElement('h3');
+          newProjectName.textContent = projectName;
+          const projectTypeParagraph = document.createElement('p');
+          projectTypeParagraph.textContent = `Project Type: ${projectType}`;
+          const technologiesParagraph = document.createElement('p');
+          technologiesParagraph.textContent = `Technologies: ${technologies}`;
+
+          newProjectDetails.appendChild(newProjectName);
+          newProjectDetails.appendChild(projectTypeParagraph);
+          newProjectDetails.appendChild(technologiesParagraph);
+
+          // Add date
+          const currentDate = new Date();
+          const dateParagraph = document.createElement('p');
+          dateParagraph.textContent = `Date Added: ${currentDate.toDateString()}`;
+          newProjectDetails.appendChild(dateParagraph);
+
+          newProjectDiv.appendChild(newProjectLink);
+          newProjectDiv.appendChild(newProjectDetails);
+          projectsContainer.appendChild(newProjectDiv);
+
+          // Close the modal
+          closeModal();
+        }
+      }
+    </script>
+
+  </div>
+
+</body>
+
+</html>

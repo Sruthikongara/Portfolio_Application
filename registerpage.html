@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="en" ng-app="signupApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        /* ... Previous CSS styles ... */
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    background-image: url('photos/login.jpg');background-repeat:no-repeat;background-size: cover; /* Replace with the path to your background image */
+
+  }
+
+  .signup-container {
+    width: 300px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 100px auto;
+    padding: 20px;
+  }
+
+  .signup-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .signup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .signup-form button:hover {
+    background-color: #0056b3;
+  }
+    </style>
+    <!-- Include AngularJS library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="SignupController">
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form class="signup-form" ng-submit="validateForm()" action="register.php" method="post">
+            <input type="text" name="name" ng-model="user.username" placeholder="Username" required>
+            <input type="email" name="email" ng-model="user.email" placeholder="Email" required>
+            <input type="password" name="password"ng-model="user.password" placeholder="Password" required>
+            <input type="password" name="confirm_password" ng-model="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        // AngularJS code
+        // AngularJS code
+angular.module('signupApp', [])
+    .controller('SignupController', function ($scope, $window) {
+        $scope.user = {};
+
+        $scope.validateForm = function () {
+            var password = $scope.user.password;
+            var confirmPassword = $scope.confirmPassword;
+
+            if (password !== confirmPassword) {
+                alert("Password and Confirm Password do not match. Please try again.");
+                return false;
+            }
+
+            // Additional validation logic can be added here if needed
+
+            // Uncomment the following lines for actual form submission
+            alert("Registered successfully!");
+
+            // Redirect to login.html
+            try {
+                $window.location.href = "login.html"; // Change this to your desired URL
+            } catch (error) {
+                console.error("Error redirecting:", error);
+            }
+
+            return false; // Prevent form submission
+        };
+    });
+
+    </script>
+</body>
+</html>
